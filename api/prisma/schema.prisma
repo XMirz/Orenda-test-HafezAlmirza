@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id      String @id @default(uuid())
+  name    String @db.VarChar(255)
+  phone   String @db.VarChar(255)
+  email   String @db.VarChar(255)
+  address String @db.VarChar(255)
+
+  Order Order[] @relation("customer")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id    String @id @default(uuid())
+  name  String @db.VarChar(255)
+  unit  Int    @db.Integer
+  price Int    @db.Integer
+
+  OrderDetail OrderDetail[] @relation("product")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id      String @id @default(uuid())
+  address String
+  total   Int
+
+  customerId String
+  customer   Customer @relation("customer", fields: [customerId], references: [id], onDelete: Cascade)
+
+  OrderDetail OrderDetail[] @relation("orderDetail")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderDetail {
+  id       String @id @default(uuid())
+  subTotal Int
+  quantity Int
+  price    Int
+
+  orderId   String
+  order     Order   @relation("orderDetail", fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation("product", fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
