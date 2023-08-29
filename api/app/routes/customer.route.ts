@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createCustomer, getAllCustomer, getCustomer } from "../controller/customer-controller"
-import { validateCreateCustomer } from "../middlewares/validate";
+import { createCustomer, deleteCustomer, getAllCustomer, getCustomer, updateCustomer } from "../controller/customer-controller"
+import { validateCreateCustomer, validateUpdateCustomer } from "../middlewares/validate";
 
 const router = Router()
 
@@ -10,8 +10,7 @@ router.route('/')
 
 router
   .route("/:customerId")
-  .get(
-    getCustomer)
-  .put(
-)
+  .get(getCustomer)
+  .patch(validateUpdateCustomer, updateCustomer)
+  .delete(deleteCustomer)
 export const CustomerRouter = router
