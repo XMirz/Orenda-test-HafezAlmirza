@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -26,8 +26,8 @@ model Customer {
 model Product {
   id    String @id @default(uuid())
   name  String @db.VarChar(255)
-  unit  Int    @db.Integer
-  price Int    @db.Integer
+  unit  Int
+  price Int
 
   OrderDetail OrderDetail[] @relation("product")
 
