@@ -2,6 +2,27 @@ import { NextFunction, Request, Response } from "express";
 import { OrderDetail } from "../database/prisma";
 import { BadRequest } from "../utils/errors";
 
+
+export const getCustomerCart = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const customerId = req.params.customerId
+    const orderDetails = await OrderDetail.findMany({
+      where: {
+        customerId: customerId,
+        orderId: null
+      }
+    })
+    res.status(200).json({
+      success: true,
+      message: "success",
+      data: orderDetails
+    })
+
+  }
+  catch (err) {
+    next(err)
+  }
+}
 export const AddToCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { customerId, productId, quantity } = req.body

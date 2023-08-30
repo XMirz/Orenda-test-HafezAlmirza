@@ -3,7 +3,7 @@ import { customerValidation } from "../utils/validations/customer.validation";
 import { BadRequest, NotFound } from "../utils/errors";
 import { productValidation } from "../utils/validations/product.validation";
 import { cartValidation } from "../utils/validations/cart.validation";
-import { Customer, Product } from "../database/prisma";
+import { Customer, OrderDetail, Product } from "../database/prisma";
 
 export const validateCreateCustomer = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -74,10 +74,18 @@ export const validateAddCart = async (req: Request, res: Response, next: NextFun
     if (product.unit < quantity) throw new BadRequest("Quantity invalid")
     req.body.quantity = parseInt(req.body.quantity)
     req.body.productUnit = product.unit
-    // req.body.price = product.price
-    // req.body.subTotal = quantity * product.price
     next()
 
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const validateOrder = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const orderDetailIds = req.body
+    if (!(orderDetailIds instanceof Array) || orderDetailIds.length < 1) throw new BadRequest("Order invalid")
+    next()
   } catch (error) {
     next(error)
   }

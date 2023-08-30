@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { validateAddCart } from "../middlewares/validate";
-import { AddToCart } from "../controller/cart.controller";
+import { AddToCart, getCustomerCart } from "../controller/cart.controller";
 import { UpdateIfExistInCart } from "../controller/cart.controller";
 const router = Router()
 router.route('/')
@@ -8,5 +8,5 @@ router.route('/')
     validateAddCart,
     UpdateIfExistInCart,
     AddToCart)
-
+router.get("/:customerId", getCustomerCart)
 export const CartRoute = router
