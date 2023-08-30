@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { CustomerRouter } from "./routes/customer.route";
 import { ProductRoute } from "./routes/product.route";
 import { handleError, handleUnknownRoute } from "./middlewares/handle-error";
+import { CartRoute } from "./routes/cart.route";
 
 
 const app = express()
@@ -17,6 +18,7 @@ app.use(express.urlencoded());
 
 app.use("/api/customers", CustomerRouter)
 app.use("/api/products", ProductRoute)
+app.use("/api/cart", CartRoute)
 
 // handle Error
 app.all("*", handleUnknownRoute)

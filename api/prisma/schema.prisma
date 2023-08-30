@@ -17,7 +17,8 @@ model Customer {
   email   String @db.VarChar(255)
   address String @db.VarChar(255)
 
-  Order Order[] @relation("customer")
+  OrderDetail OrderDetail[] @relation("orderDetail")
+  Order       Order[]       @relation("order")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,19 +30,20 @@ model Product {
   unit  Int
   price Int
 
-  OrderDetail OrderDetail[] @relation("product")
+  OrderDetail OrderDetail[] @relation("orderDetail")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Order {
-  id      String @id @default(uuid())
-  address String
-  total   Int
+  id       String @id @default(uuid())
+  address  String
+  total    Int
+  discount Int
 
   customerId String
-  customer   Customer @relation("customer", fields: [customerId], references: [id], onDelete: Cascade)
+  customer   Customer @relation("order", fields: [customerId], references: [id], onDelete: Cascade)
 
   OrderDetail OrderDetail[] @relation("orderDetail")
 
@@ -51,14 +53,16 @@ model Order {
 
 model OrderDetail {
   id       String @id @default(uuid())
-  subTotal Int
   quantity Int
-  price    Int
+  subTotal Int?
+  price    Int?
 
-  orderId   String
-  order     Order   @relation("orderDetail", fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation("product", fields: [productId], references: [id], onDelete: Cascade)
+  orderId    String?
+  customerId String
+  productId  String
+  order      Order?   @relation("orderDetail", fields: [orderId], references: [id], onDelete: Cascade)
+  customer   Customer @relation("orderDetail", fields: [customerId], references: [id], onDelete: Cascade)
+  product    Product  @relation("orderDetail", fields: [productId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
