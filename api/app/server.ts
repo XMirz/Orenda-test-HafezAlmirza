@@ -1,6 +1,7 @@
 import("dotenv/config")
 import express, { NextFunction, Request, Response } from "express";
 import { CustomerRouter } from "./routes/customer.route";
+import { ProductRoute } from "./routes/product.route";
 import { handleError, handleUnknownRoute } from "./middlewares/handle-error";
 
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use("/api/customers", CustomerRouter)
+app.use("/api/products", ProductRoute)
 
 // handle Error
 app.all("*", handleUnknownRoute)

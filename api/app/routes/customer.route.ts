@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createCustomer, deleteCustomer, getAllCustomer, getCustomer, updateCustomer } from "../controller/customer-controller"
+import { createCustomer, deleteCustomer, getAllCustomer, getCustomer, updateCustomer } from "../controller/customer.controller"
 import { validateCreateCustomer, validateUpdateCustomer } from "../middlewares/validate";
 
 const router = Router()

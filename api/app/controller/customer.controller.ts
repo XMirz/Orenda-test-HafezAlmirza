@@ -29,19 +29,20 @@ export const createCustomer = async (req: Request, res: Response, next: NextFunc
 
 export const getAllCustomer = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    let take
+    let { page, size } = req.query
 
-    let { page, size } = req.body
-    if (!size || size < 10) size = 10
-    const offset = getOffset(page, size)
+    take = parseInt(size as string)
+    if (!take || take < 10) take = 10
+    const offset = getOffset(parseInt(page as string), take)
 
     const customers = await Customer.findMany({
       skip: offset,
-      take: size
+      take: take
     })
 
     res.status(200).json({
       success: true,
-      count: customers.length,
       message: "success",
       data: customers
     })
