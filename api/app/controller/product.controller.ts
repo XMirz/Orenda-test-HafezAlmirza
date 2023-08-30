@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../database/prisma";
 import { getOffset } from "../utils/paginate-offset";
+import { Product as ProductType } from "@prisma/client";
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -25,7 +26,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
   }
 }
 
-export const getAllProduct = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let take
     let { page, size } = req.query
@@ -48,4 +49,79 @@ export const getAllProduct = async (req: Request, res: Response, next: NextFunct
   catch (err) {
     next(err)
   }
+}
+
+export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const productId = req.params.productId
+
+    const product = await Product.findUnique({
+      where: {
+        id: productId
+      },
+    })
+    return handleProductResponse(res, product)
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const productId = req.params.productId
+    let { name, unit, price } = req.body
+    unit = parseInt(unit)
+    price = parseInt(price)
+
+    const product = await Product.update({
+      where: {
+        id: productId
+      },
+      data: {
+        name,
+        unit,
+        price
+      }
+    })
+    return handleProductResponse(res, product)
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const productId = req.params.productId
+
+    const product = await Product.delete({
+      where: {
+        id: productId
+      },
+    })
+    return handleProductResponse(res, product)
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+
+
+
+export const handleProductResponse = (res: Response, product: ProductType | null) => {
+  if (!product) {
+    res.status(404).json({
+      success: false,
+      message: "notfound",
+    })
+    return
+  }
+  res.status(200).json({
+    success: true,
+    message: "success",
+    data: product
+  })
 }

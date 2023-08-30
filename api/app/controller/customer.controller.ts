@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Customer } from "../database/prisma";
 import { getOffset } from "../utils/paginate-offset";
+import { Customer as CustomerType } from "@prisma/client";
 
 
 
@@ -60,7 +61,7 @@ export const getCustomer = async (req: Request, res: Response, next: NextFunctio
         id: customerId
       }
     })
-    return handleCustomerExist(res, customer)
+    return handleCustomerResponse(res, customer)
   }
   catch (err) {
     next(err)
@@ -83,7 +84,7 @@ export const updateCustomer = async (req: Request, res: Response, next: NextFunc
       }
     })
 
-    return handleCustomerExist(res, customer)
+    return handleCustomerResponse(res, customer)
   }
   catch (err) {
     next(err)
@@ -98,14 +99,14 @@ export const deleteCustomer = async (req: Request, res: Response, next: NextFunc
         id: customerId
       },
     })
-    return handleCustomerExist(res, customer)
+    return handleCustomerResponse(res, customer)
   }
   catch (err) {
     next(err)
   }
 }
 
-export const handleCustomerExist = (res: Response, customer: any) => {
+export const handleCustomerResponse = (res: Response, customer: CustomerType | null) => {
   if (!customer) {
     res.status(404).json({
       success: false,
