@@ -10,4 +10,4 @@
    lumpsum discount for the order
 4. Create endpoint to get detail of an existing
    order including customer, products, and the total
-   information
+   information #Done
