@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Product } from "../database/prisma";
+import { Product, prisma } from "../database/prisma";
 import { getOffset } from "../utils/paginate-offset";
 import { Product as ProductType } from "@prisma/client";
 
@@ -17,7 +17,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     })
     res.status(201).json({
       success: true,
-      message: "product",
+      message: "success",
       data: product
     })
   }
@@ -29,21 +29,36 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let take
+    let currentPage;
     let { page, size } = req.query
 
     take = parseInt(size as string)
+    currentPage = parseInt(page as string);
     if (!take || take < 10) take = 10
-    const offset = getOffset(parseInt(page as string), take)
+    if (!currentPage || currentPage < 1) currentPage = 1;
+    const offset = getOffset(currentPage, take)
 
-    const customers = await Product.findMany({
-      skip: offset,
-      take: take
-    })
+    const [products, count] = await prisma.$transaction([
+      Product.findMany({
+        skip: offset,
+        take: take,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      Product.count()
+    ])
 
     res.status(200).json({
       success: true,
       message: "success",
-      data: customers
+      pagination: {
+        size: take,
+        page: currentPage,
+        totalPage: Math.ceil(count / take),
+        total: count,
+      },
+      data: products
     })
   }
   catch (err) {

@@ -20,7 +20,7 @@ export const createCustomer = async (
     });
     res.status(201).json({
       success: true,
-      message: "created",
+      message: "success",
       data: customer,
     });
   } catch (err) {
