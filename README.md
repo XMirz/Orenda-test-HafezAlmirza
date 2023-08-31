@@ -6,14 +6,16 @@ Simple app to complete recruitment process in Orenda Digital
 
 #### Backend
 
-- Create database named `orenda` locally, set host in .env if needed
+- Create database named `orenda` locally, configure DATABASE_URL in .env if needed
 - Go to api dir<br>
   `cd api`
 - Install dependency<br>
+  `npm install`
 - Configure the database<br>
-  `npx prisma db pull`
+  `npx prisma db push`
 - Run development server<br>
   `npm run dev`
+- Open `http://localhost:3000/api-docs` to view API Documentations
 
 #### Frontend
 
@@ -23,6 +25,7 @@ Simple app to complete recruitment process in Orenda Digital
   `npm install`
 - Run app<br>
   `npm start`
+- configure PORT in start script of package.json if needed
 
 ### Requirement
 
