@@ -10,6 +10,12 @@ export type RowAction<T> = {
   action: (item: T) => void;
 };
 
+export type CustomerForm = {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+};
 export type Customer = {
   id: string;
   name: string;
@@ -34,4 +40,9 @@ export type NavItem = {
 export type FilterItem = {
   placeholder: string;
   columnName: string;
+};
+
+export type BreadCrumbItem = {
+  path: string;
+  title: string;
 };

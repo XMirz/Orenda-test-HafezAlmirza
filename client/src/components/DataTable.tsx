@@ -46,6 +46,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const actionsColumn: ColumnDef<TData, TValue> = {
     id: "actions",
+    header: "Action",
     cell: ({ row }) => {
       return (
         <DropdownMenu>

@@ -5,11 +5,23 @@ import React, { useEffect } from "react";
 import customersApi from "service/customers";
 import { useApi } from "utils/hooks";
 import { useToast } from "components/ui/use-toast";
+import { Button } from "components/ui/button";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Layout from "components/Layout";
 
 type Props = {};
 
-function CustomersPage({}: Props) {
+const breadCrumbs = [
+  {
+    title: "Main Menu",
+    path: "/customers",
+  },
+];
+
+function IndexCustomersPage({}: Props) {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const getAllCustomers = useApi<ApiResponse<Customer[]>>(
     customersApi.getAllCustomers
@@ -34,7 +46,9 @@ function CustomersPage({}: Props) {
   const rowActions: RowAction<Customer>[] = [
     {
       label: "Edit",
-      action: (data) => {},
+      action: (data) => {
+        navigate(`/customers/${data.id}`);
+      },
     },
     {
       label: "Delete",
@@ -45,17 +59,20 @@ function CustomersPage({}: Props) {
   ];
 
   return (
-    <div className="bg-gray-50 px-4 py-4 w-full  space-y-4">
-      <div className="font-poppins ">
-        <h1 className="font-semibold text-lg">Customers Page</h1>
-        <div className=" font-light">
-          <p>Main</p>
-        </div>
-      </div>
+    <Layout title="Customer Page" breadCrumbs={breadCrumbs}>
       {/* Content */}
       <div className="rounded-lg px-6 py-6 w-full bg-white shadow-sm border border-black/10 space-y-4">
-        <div className="flex flex-row">
+        <div className="flex flex-row justify-between items-center">
           <p className="font-poppins text-sm font-semibold">All Customer</p>
+          <Button
+            variant={"destructive"}
+            className="bg-red-700"
+            onClick={() => {
+              navigate("/customers/new");
+            }}
+          >
+            <Plus /> <span className="ml-2">Add New Customer</span>
+          </Button>
         </div>
         <div className="">
           {typeof getAllCustomers.data !== "undefined" && (
@@ -68,8 +85,8 @@ function CustomersPage({}: Props) {
           )}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
-export default CustomersPage;
+export default IndexCustomersPage;
