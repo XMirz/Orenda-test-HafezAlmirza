@@ -4,14 +4,25 @@ Simple app to complete recruitment process in Orenda Digital
 
 ### Running Projects
 
+#### Backend
+
+- Create database named `orenda` locally, set host in .env if needed
+- Go to api dir<br>
+  `cd api`
 - Install dependency<br>
-  `pnpm install`
 - Configure the database<br>
-  `pnpm prisma db pull`
-  or using npm
   `npx prisma db pull`
 - Run development server<br>
-  `pnpm run dev`
+  `npm run dev`
+
+#### Frontend
+
+- Go to api dir<br>
+  `cd client`
+- Install dependency<br>
+  `npm install`
+- Run app<br>
+  `npm start`
 
 ### Requirement
 
