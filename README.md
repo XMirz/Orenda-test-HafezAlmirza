@@ -35,6 +35,16 @@ Simple app to complete recruitment process in Orenda Digital
 11. Better recommended if do API documentation like Swagger or
     another else
 
+#### 1. Logical
+
+```
+function isPalindrome(num) {
+  const numStr = num.toString();
+  const reversedStr = numStr.split('').reverse().join('');
+  return numStr === reversedStr;
+}
+```
+
 #### 2. Backend
 
 1. Create endpoint for handling CRUD for table
@@ -49,4 +59,4 @@ Simple app to complete recruitment process in Orenda Digital
    order including customer, products, and the total
    information #Done
 
-#### 2. FrontEnd
+#### 3. FrontEnd
