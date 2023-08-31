@@ -2,7 +2,15 @@ import React from "react";
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
+  pagination?: Pagination;
   data: T;
+};
+
+export type Pagination = {
+  size: number;
+  page: number;
+  totalPage: number;
+  total: number;
 };
 
 export type RowAction<T> = {

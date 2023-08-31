@@ -3,7 +3,7 @@ import Layout from "components/Layout";
 import React, { useEffect, useState } from "react";
 import { useApi } from "utils/hooks";
 import { ApiResponse, BreadCrumbItem, Customer } from "utils/types";
-import customersApi from "service/customers";
+import customersApi from "service/api/customers";
 import { toast } from "components/ui/use-toast";
 import { useLocation, useMatch, useNavigate } from "react-router-dom";
 

@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "components/ui/table";
 import React from "react";
-import { FilterItem, RowAction } from "utils/types";
+import { FilterItem, Pagination, RowAction } from "utils/types";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -25,17 +25,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "components/ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
+import { boolean } from "zod";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterItems: FilterItem[];
   rowActions: RowAction<TData>[];
+  pagination: Pagination;
 }
 
 export function DataTable<TData, TValue>({
@@ -43,6 +43,7 @@ export function DataTable<TData, TValue>({
   data,
   rowActions,
   filterItems,
+  pagination,
 }: DataTableProps<TData, TValue>) {
   const actionsColumn: ColumnDef<TData, TValue> = {
     id: "actions",
@@ -84,7 +85,6 @@ export function DataTable<TData, TValue>({
     data,
     columns: columnsWithActions,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      {/* <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
@@ -184,7 +184,7 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }

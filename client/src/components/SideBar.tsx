@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { NavItem } from "../utils/types";
 
 type Props = {
-  showSidebar: boolean;
+  // showSidebar: boolean;
 };
 
 const navItems = [
@@ -14,7 +14,7 @@ const navItems = [
     icon: <Home />,
   },
   {
-    path: "/product",
+    path: "/products",
     name: "Products",
     icon: <Box />,
   },
@@ -48,7 +48,7 @@ export function Item({ item, isSelected }: ItemProps) {
   );
 }
 
-export default function SideBar({ showSidebar }: Props) {
+export default function SideBar({}: Props) {
   const location = useLocation();
   return (
     <div className="font-poppins border-r shadow-md bg-red-700 sticky  group w-20 hover:w-64 transition-all">

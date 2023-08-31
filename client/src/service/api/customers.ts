@@ -1,11 +1,11 @@
 import { Customer } from "utils/types";
-import apiClient from "../api";
+import apiClient from ".";
 
 const createCustomer = (customer: Customer) => {
   return apiClient.post("/customers", customer);
 };
 
-const getAllCustomers = () => apiClient.get("/customers");
+const getAllCustomers = () => apiClient.get("/customers/full");
 
 const getCustomer = (customerId: string) =>
   apiClient.get(`/customers/${customerId}`);

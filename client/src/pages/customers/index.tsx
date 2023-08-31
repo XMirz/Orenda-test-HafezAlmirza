@@ -1,12 +1,17 @@
 import { DataTable } from "components/DataTable";
 import { customerColumns, customerFilterItems } from "utils/constants";
-import { ApiResponse, Customer, RowAction } from "utils/types";
+import {
+  ApiResponse,
+  Customer,
+  Pagination as PaginationType,
+  RowAction,
+} from "utils/types";
 import React, { useEffect } from "react";
-import customersApi from "service/customers";
+import customersApi from "service/api/customers";
 import { useApi } from "utils/hooks";
 import { useToast } from "components/ui/use-toast";
 import { Button } from "components/ui/button";
-import { Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/Layout";
 
@@ -74,14 +79,18 @@ function IndexCustomersPage({}: Props) {
             <Plus /> <span className="ml-2">Add New Customer</span>
           </Button>
         </div>
-        <div className="">
+        <div className="flex flex-col gap-y-6">
           {typeof getAllCustomers.data !== "undefined" && (
-            <DataTable
-              columns={customerColumns}
-              data={getAllCustomers.data.data}
-              filterItems={customerFilterItems}
-              rowActions={rowActions}
-            />
+            <>
+              <DataTable
+                columns={customerColumns}
+                data={getAllCustomers.data.data}
+                filterItems={customerFilterItems}
+                rowActions={rowActions}
+                pagination={getAllCustomers.data.pagination!!}
+              />
+              {/* <Pagination pagination={getAllCustomers.data.pagination!!} /> */}
+            </>
           )}
         </div>
       </div>
@@ -90,3 +99,26 @@ function IndexCustomersPage({}: Props) {
 }
 
 export default IndexCustomersPage;
+
+// type PaginationProps = {
+//   pagination: PaginationType;
+// };
+// export function Pagination({ pagination }: PaginationProps) {
+//   return (
+//     <div className="flex justify-end">
+//       <div className="flex flex-row gap-x-2">
+//         {Array(pagination.totalPage)
+//           .fill(0)
+//           .map((a, i) => (
+//             <Button variant={"outline"}>{`${i + 1}`}</Button>
+//           ))}
+//         <Button variant={"outline"}>
+//           <ChevronLeft />
+//         </Button>
+//         <Button variant={"outline"}>
+//           <ChevronRight />
+//         </Button>
+//       </div>
+//     </div>
+//   );
+// }
